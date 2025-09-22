@@ -22,7 +22,11 @@ public class UserController {
     public ResponseEntity<UserDTO> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
         return null;
     }
-    public void login(){
+
+    @PostMapping("/login")//Note:Login should be post as it will generate a token.So it will return a TokenDTO.
+    //public void login(String email, String pas){
+    public ResponseEntity<String> login(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+        return null;
 
     }
     public void validateToken(){
