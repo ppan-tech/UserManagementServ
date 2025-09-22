@@ -29,7 +29,8 @@ public class UserController {
         return null;
     }
 
-    public void validateToken(){
+    @GetMapping("/validate")
+    public void validateToken(String tokenValue) {
 
     }
 
