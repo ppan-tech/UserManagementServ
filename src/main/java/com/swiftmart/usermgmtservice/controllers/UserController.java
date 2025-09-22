@@ -1,6 +1,8 @@
 package com.swiftmart.usermgmtservice.controllers;
 
+import com.swiftmart.usermgmtservice.dtos.LoginRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.SignUpRequestDTO;
+import com.swiftmart.usermgmtservice.dtos.TokenDTO;
 import com.swiftmart.usermgmtservice.dtos.UserDTO;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +27,10 @@ public class UserController {
 
     @PostMapping("/login")//Note:Login should be post as it will generate a token.So it will return a TokenDTO.
     //public void login(String email, String pas){
-    public ResponseEntity<String> login(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+    public TokenDTO login(LoginRequestDTO requestDTO) {
         return null;
-
     }
+
     public void validateToken(){
 
     }
