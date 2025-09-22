@@ -1,5 +1,6 @@
 package com.swiftmart.usermgmtservice.models;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
