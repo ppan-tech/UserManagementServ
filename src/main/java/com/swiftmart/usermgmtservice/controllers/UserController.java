@@ -4,6 +4,8 @@ import com.swiftmart.usermgmtservice.dtos.SignUpRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.UserDTO;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController//means this class will handle HTTP requests and return responses in a RESTful manner
@@ -14,7 +16,9 @@ public class UserController {
     //public void signup(String name, String email, String password){
     //public User signup(SignUpRequestDTO signUpRequestDTO) {
     //public UserDTO signup(SignUpRequestDTO signUpRequestDTO) {
-    public ResponseEntity<UserDTO> signup(SignUpRequestDTO signUpRequestDTO) {
+
+    @RequestMapping("/users/signup")
+    public ResponseEntity<UserDTO> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
         return null;
     }
     public void login(){
