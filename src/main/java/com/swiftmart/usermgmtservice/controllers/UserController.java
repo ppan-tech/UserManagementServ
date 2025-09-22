@@ -29,9 +29,10 @@ public class UserController {
         return null;
     }
 
-    @GetMapping("/validate")
-    public void validateToken(String tokenValue) {
-
+    @GetMapping("/validate/{tokenValue}")
+    public boolean validateToken(@PathVariable String tokenValue) {
+        boolean isValid = false;
+        return isValid;
     }
 
 
