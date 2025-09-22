@@ -30,10 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/validate/{tokenValue}")
-    public boolean validateToken(@PathVariable String tokenValue) {
-        boolean isValid = false;
-        return isValid;
+    public UserDTO validateToken(@PathVariable("tokenValue") String tokenValue) {
+        return null;
     }
-
-
 }
