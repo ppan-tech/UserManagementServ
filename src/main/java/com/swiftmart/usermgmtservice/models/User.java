@@ -13,5 +13,5 @@ public class User extends BaseModel{
     private String name;
     private String email;
     private String password;
-    private List<Role> roles;
+    private List<Role> roles;//Getting Error, as there is no aanotation.
 }
