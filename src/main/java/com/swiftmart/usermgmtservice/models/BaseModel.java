@@ -23,6 +23,7 @@ public abstract class BaseModel {
         @GeneratedValue: This is an optional but very common annotation. It tells the persistence
                 provider how the primary key value should be generated.
                 In this example, GenerationType.IDENTITY means the database itself will auto-increment
-                the id for new records. This is a common practice for primary keys.
+                the id for new records. This is a common practice for primary keys, without this
+                 strategy, runtime error will be there.
      */
 }
