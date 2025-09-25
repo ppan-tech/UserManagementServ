@@ -68,3 +68,5 @@ curl --location 'http://localhost:8080/users/login' \
     "password":"pw123456"
 }'
 \\=========
+Also check the DB, user is created successfully.
+=======
