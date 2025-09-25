@@ -10,8 +10,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    public UserServiceImpl(UserRepository userRepository) {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    public UserServiceImpl(UserRepository userRepository,
+                           BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -25,16 +28,16 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(email);
         user.setName(name);
-        user.setPassword(password);//Note:In real world app we should hash the password before saving.
+        user.setPassword(bCryptPasswordEncoder.encode(password));//Note:In real world app we should hash the password before saving.
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         /*
         But we should not create password encoder object every time we need to encode a password.So we can create a bean
          of password encoder and inject it here.By Creating in ApplicationConfig.
          */
-
-        //userRepository.save(new User(name,email,password));
-        return null;
+        //now save the user to DB
+        user = userRepository.save(user);//input user will not have 'id' but output user will have.
+        return user;
     }
 
     @Override
