@@ -42,6 +42,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Token login(String email, String password) {
+        //lets first get the user by email from DB
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if(optionalUser.isEmpty()){
+            //redirect to signup
+            return null;
+        }
+        User user = optionalUser.get();
+        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
+            //password mismtach
+            //we should throw an exception here.ie.PasswordMismatchException.
+        }
+
         return null;
     }
 
