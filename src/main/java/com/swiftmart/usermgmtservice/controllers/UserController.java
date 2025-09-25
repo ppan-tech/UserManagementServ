@@ -25,19 +25,16 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDTO> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+    public UserDTO signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
         User user = userService.signup(signUpRequestDTO.getName(),
                 signUpRequestDTO.getEmail(),
                 signUpRequestDTO.getPassword());
         //Note:But we should not return the User entity directly as it may expose sensitive info like password.
         //Instead we should return a UserDTO which contains only the fields we want to expose.
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setRoles(user.getRoles());
 
-        return ResponseEntity.ok(userDTO);
+
+        return UserDTO.from(user);//Note:This way it is implemented in FAANG companies.
         //return null;
     }
 
