@@ -56,6 +56,17 @@ public class UserServiceImpl implements UserService {
             throw new PasswordMismatchException("Invalid Password");
         }
 
+        //SUCCESSFUL of login--FLOW:
+        //if control reaches here, means login is successful.
+        Token token = new Token();
+        token.setUser(user);
+        //generate a random token value and set it to token object.
+        token.setTokenValue(java.util.UUID.randomUUID().toString());
+        //set the expiry time of token to 1 hour from now.
+        token.setExpiryTime(System.currentTimeMillis() + 3600 * 1000);//
+        //Note:3600*1000 means 1 hour in milliseconds.
+        return token;
+
         return null;
     }
 
