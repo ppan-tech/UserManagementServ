@@ -74,3 +74,5 @@ Also check the DB, user is created successfully.
     "tokenValue": "O3UnmHBVTcJFSVHkF38mcspKsJKAkSKWEojMb1gW5cbfPAihdyy3vNcEEHHIPQ0yrDO12QypIFkde3ivdqTyW8jyccJ7q6EF94RBtBoJ3Qo85j0HJ9ARUWys2iSrfYvF"
 }
 ========
+now we will check whether this token value is valid or not
+------
