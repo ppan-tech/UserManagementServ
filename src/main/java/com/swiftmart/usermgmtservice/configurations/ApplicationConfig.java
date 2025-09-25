@@ -18,10 +18,12 @@ public class ApplicationConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.cors().disable();
-        httpSecurity.authorizeHttpRequests(
+        /*httpSecurity.authorizeHttpRequests(
                 authorize -> authorize.anyRequest().permitAll()
+        );*/
+        httpSecurity.authorizeHttpRequests(
+                authorize -> authorize.requestMatchers ("/users/signup","users/login").permitAll()
         );
-
         return httpSecurity.build();
     }
 }

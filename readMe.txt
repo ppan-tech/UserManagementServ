@@ -48,3 +48,23 @@ csrf
         Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.last_updated_at,u1_0.name,u1_0.password from users u1_0 where u1_0.email=?
         Hibernate: insert into users (created_at,email,last_updated_at,name,password) values (?,?,?,?,?)
   ---------
+  Now both of these API calls works:
+ ==singup API call:
+  curl --location 'http://localhost:8080/users/signup' \
+  --header 'Content-Type: application/json' \
+  --header 'Cookie: JSESSIONID=72B0FEF24377721A9135729895A70CE5' \
+  --data-raw '{
+      "name":"PPant2",
+      "email":"punepant2@gmail.com",
+      "password":"pw123456"
+  }'
+==login API call:
+curl --location 'http://localhost:8080/users/login' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=72B0FEF24377721A9135729895A70CE5' \
+--data-raw '{
+    "name":"PPant2",
+    "email":"punepant2@gmail.com",
+    "password":"pw123456"
+}'
+\\=========
