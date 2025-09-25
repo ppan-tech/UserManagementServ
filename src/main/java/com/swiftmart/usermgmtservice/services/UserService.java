@@ -1,5 +1,6 @@
 package com.swiftmart.usermgmtservice.services;
 
+import com.swiftmart.usermgmtservice.exceptions.InvalidTokenException;
 import com.swiftmart.usermgmtservice.exceptions.PasswordMismatchException;
 import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
@@ -9,5 +10,5 @@ public interface UserService {
 
     Token login(String email, String password) throws PasswordMismatchException;
 
-    User validateToken(String tokenValue);
+    User validateToken(String tokenValue) throws InvalidTokenException;
 }

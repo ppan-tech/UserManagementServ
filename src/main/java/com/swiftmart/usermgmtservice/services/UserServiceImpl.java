@@ -1,5 +1,6 @@
 package com.swiftmart.usermgmtservice.services;
 
+import com.swiftmart.usermgmtservice.exceptions.InvalidTokenException;
 import com.swiftmart.usermgmtservice.exceptions.PasswordMismatchException;
 import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
@@ -92,15 +93,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User validateToken(String tokenValue) {
+    public User validateToken(String tokenValue) throws InvalidTokenException {
         //return null;
         Optional<Token> tokenOptional =
                 tokenRepository.findByTokenValueAndExpiryDateAfter(tokenValue, new Date());
 
         if (tokenOptional.isEmpty()) {
             //token is invalid or either expired.
-            //throw new InvalidTokenException("Invalid token, either the tokenValue is invalid or token has expired.");
-            return null;
+            throw new InvalidTokenException("Invalid token, either the tokenValue is invalid or token has expired.");
+            //return null;
         }
 
         //Token is Valid.
