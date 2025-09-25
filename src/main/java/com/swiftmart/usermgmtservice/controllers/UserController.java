@@ -4,6 +4,7 @@ import com.swiftmart.usermgmtservice.dtos.LoginRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.SignUpRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.TokenDTO;
 import com.swiftmart.usermgmtservice.dtos.UserDTO;
+import com.swiftmart.usermgmtservice.models.User;
 import com.swiftmart.usermgmtservice.services.UserService;
 import lombok.Getter;
 import org.apache.coyote.Response;
@@ -25,7 +26,19 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
-        return null;
+        User user = userService.signup(signUpRequestDTO.getName(),
+                signUpRequestDTO.getEmail(),
+                signUpRequestDTO.getPassword());
+        //Note:But we should not return the User entity directly as it may expose sensitive info like password.
+        //Instead we should return a UserDTO which contains only the fields we want to expose.
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName(user.getName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setRoles(user.getRoles());
+
+        return ResponseEntity.ok(userDTO);
+        //return null;
     }
 
     @PostMapping("/login")//Note:Login should be post as it will generate a token.So it will return a TokenDTO.
