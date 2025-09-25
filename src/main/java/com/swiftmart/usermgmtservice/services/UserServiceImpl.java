@@ -3,6 +3,7 @@ package com.swiftmart.usermgmtservice.services;
 import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
 import com.swiftmart.usermgmtservice.repositories.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -26,7 +27,8 @@ public class UserServiceImpl implements UserService {
         user.setName(name);
         user.setPassword(password);//Note:In real world app we should hash the password before saving.
 
-        //TODO: Hence lets go to maven repo and add dependency for BCrypt.
+        //Done: Hence lets go to maven repo and add dependency for BCrypt.Now we can use BCrypt to hash the password.
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         //userRepository.save(new User(name,email,password));
         return null;
