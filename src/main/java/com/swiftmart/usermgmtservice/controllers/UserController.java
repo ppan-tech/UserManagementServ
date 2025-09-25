@@ -4,6 +4,8 @@ import com.swiftmart.usermgmtservice.dtos.LoginRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.SignUpRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.TokenDTO;
 import com.swiftmart.usermgmtservice.dtos.UserDTO;
+import com.swiftmart.usermgmtservice.exceptions.PasswordMismatchException;
+import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
 import com.swiftmart.usermgmtservice.services.UserService;
 import lombok.Getter;
@@ -40,8 +42,14 @@ public class UserController {
 
     @PostMapping("/login")//Note:Login should be post as it will generate a token.So it will return a TokenDTO.
     //public void login(String email, String pas){
-    public TokenDTO login(@RequestBody LoginRequestDTO requestDTO) {
-        return null;
+    public TokenDTO login(@RequestBody LoginRequestDTO requestDTO) throws PasswordMismatchException {
+       // return null;
+        Token token = userService.login(
+                requestDTO.getEmail(),
+                requestDTO.getPassword()
+        );
+
+        return TokenDTO.from(token);
     }
 
     @GetMapping("/validate/{tokenValue}")
