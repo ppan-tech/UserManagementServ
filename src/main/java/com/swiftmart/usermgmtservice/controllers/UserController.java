@@ -4,6 +4,7 @@ import com.swiftmart.usermgmtservice.dtos.LoginRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.SignUpRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.TokenDTO;
 import com.swiftmart.usermgmtservice.dtos.UserDTO;
+import com.swiftmart.usermgmtservice.exceptions.InvalidTokenException;
 import com.swiftmart.usermgmtservice.exceptions.PasswordMismatchException;
 import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
@@ -53,7 +54,10 @@ public class UserController {
     }
 
     @GetMapping("/validate/{tokenValue}")
-    public UserDTO validateToken(@PathVariable("tokenValue") String tokenValue) {
-        return null;
+    public UserDTO validateToken(@PathVariable("tokenValue") String tokenValue) throws InvalidTokenException {
+        //return null;
+        User user = userService.validateToken(tokenValue);
+
+        return UserDTO.from(user);
     }
 }
