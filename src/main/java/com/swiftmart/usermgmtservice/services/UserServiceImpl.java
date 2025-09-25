@@ -1,5 +1,6 @@
 package com.swiftmart.usermgmtservice.services;
 
+import com.swiftmart.usermgmtservice.exceptions.PasswordMismatchException;
 import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
 import com.swiftmart.usermgmtservice.repositories.UserRepository;
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Token login(String email, String password) {
+    public Token login(String email, String password) throws PasswordMismatchException {
         //lets first get the user by email from DB
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if(optionalUser.isEmpty()){
@@ -52,6 +53,7 @@ public class UserServiceImpl implements UserService {
         if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
             //password mismtach
             //we should throw an exception here.ie.PasswordMismatchException.
+            throw new PasswordMismatchException("Invalid Password");
         }
 
         return null;
