@@ -76,3 +76,18 @@ Also check the DB, user is created successfully.
 ========
 now we will check whether this token value is valid or not
 ------
+we are asking JPA to listen to the entity changes and update the created_at and last_updated_at fields automatically.
+So we need to enable JPA auditing in the main class of the project as:
+@EnableJpaAuditing
+@SpringBootApplication
+public class UserMgmtServiceApplication {
+}
+---Also go to the BaseModel class and add these two annotations:(also @EnntityListeners at class level)
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @LastModifiedDate
+    @Column(name = "last_updated_at")
+    private Instant lastUpdatedAt;
+------------
