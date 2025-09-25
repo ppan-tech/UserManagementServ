@@ -4,6 +4,7 @@ import com.swiftmart.usermgmtservice.dtos.LoginRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.SignUpRequestDTO;
 import com.swiftmart.usermgmtservice.dtos.TokenDTO;
 import com.swiftmart.usermgmtservice.dtos.UserDTO;
+import com.swiftmart.usermgmtservice.services.UserService;
 import lombok.Getter;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.*;
 // @RequestMapping("/api/auth")//base URL path for all endpoints in this controller
 @RequestMapping("/users")
 public class UserController {
-
+    private UserService userService;
     //public void signup(String name, String email, String password){
     //public User signup(SignUpRequestDTO signUpRequestDTO) {
     //public UserDTO signup(SignUpRequestDTO signUpRequestDTO) {
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
