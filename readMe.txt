@@ -42,3 +42,9 @@ csrf
         "path": "/users/signup"
     }
    --------
+   Now after adding this filter chain and allowing all calls, the user is created in DB and signup is successful.
+    But this is not secure, as anyone can call any API without authentication.
+    The insert stmt executed is:
+        Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.last_updated_at,u1_0.name,u1_0.password from users u1_0 where u1_0.email=?
+        Hibernate: insert into users (created_at,email,last_updated_at,name,password) values (?,?,?,?,?)
+  ---------
