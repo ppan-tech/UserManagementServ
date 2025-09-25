@@ -22,7 +22,7 @@ public class ApplicationConfig {
                 authorize -> authorize.anyRequest().permitAll()
         );*/
         httpSecurity.authorizeHttpRequests(
-                authorize -> authorize.requestMatchers ("/users/signup","users/login").permitAll()
+                authorize -> authorize.requestMatchers ("/users/signup","users/login","users/validate/**").permitAll()
         );
         return httpSecurity.build();
     }
