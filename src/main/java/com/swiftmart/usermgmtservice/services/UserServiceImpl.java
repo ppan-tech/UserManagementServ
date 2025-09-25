@@ -4,8 +4,12 @@ import com.swiftmart.usermgmtservice.exceptions.PasswordMismatchException;
 import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
 import com.swiftmart.usermgmtservice.repositories.UserRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -61,11 +65,21 @@ public class UserServiceImpl implements UserService {
         Token token = new Token();
         token.setUser(user);
         //generate a random token value and set it to token object.
-        token.setTokenValue(java.util.UUID.randomUUID().toString());
+            //token.setTokenValue(java.util.UUID.randomUUID().toString());
+        token.setTokenValue(RandomStringUtils.randomAlphanumeric(128));//pnp:128 alphanumeric chars, very difficult to guess.
         //set the expiry time of token to 1 hour from now.
-        token.setExpiryTime(System.currentTimeMillis() + 3600 * 1000);//
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 30);
+        Date expiryDate = calendar.getTime();
+
+        //token.setExpiryTime(System.currentTimeMillis() + 3600 * 1000);//
         //Note:3600*1000 means 1 hour in milliseconds.
-        return token;
+
+        token.setExpiryDate(expiryDate);//This sets expiry of token.
+
+
+        //return token;
 
         return null;
     }
