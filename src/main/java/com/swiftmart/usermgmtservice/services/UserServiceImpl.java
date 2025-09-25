@@ -27,8 +27,11 @@ public class UserServiceImpl implements UserService {
         user.setName(name);
         user.setPassword(password);//Note:In real world app we should hash the password before saving.
 
-        //Done: Hence lets go to maven repo and add dependency for BCrypt.Now we can use BCrypt to hash the password.
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        /*
+        But we should not create password encoder object every time we need to encode a password.So we can create a bean
+         of password encoder and inject it here.By Creating in ApplicationConfig.
+         */
 
         //userRepository.save(new User(name,email,password));
         return null;
