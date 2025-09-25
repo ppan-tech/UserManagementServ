@@ -3,8 +3,10 @@ package com.swiftmart.usermgmtservice.services;
 import com.swiftmart.usermgmtservice.exceptions.PasswordMismatchException;
 import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
+import com.swiftmart.usermgmtservice.repositories.TokenRepository;
 import com.swiftmart.usermgmtservice.repositories.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private  TokenRepository tokenRepository;
+
     public UserServiceImpl(UserRepository userRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.tokenRepository = tokenRepository;
     }
 
 
@@ -49,12 +55,12 @@ public class UserServiceImpl implements UserService {
     public Token login(String email, String password) throws PasswordMismatchException {
         //lets first get the user by email from DB
         Optional<User> optionalUser = userRepository.findByEmail(email);
-        if(optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             //redirect to signup
             return null;
         }
         User user = optionalUser.get();
-        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
+        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
             //password mismtach
             //we should throw an exception here.ie.PasswordMismatchException.
             throw new PasswordMismatchException("Invalid Password");
@@ -65,7 +71,7 @@ public class UserServiceImpl implements UserService {
         Token token = new Token();
         token.setUser(user);
         //generate a random token value and set it to token object.
-            //token.setTokenValue(java.util.UUID.randomUUID().toString());
+        //token.setTokenValue(java.util.UUID.randomUUID().toString());
         token.setTokenValue(RandomStringUtils.randomAlphanumeric(128));//pnp:128 alphanumeric chars, very difficult to guess.
         //set the expiry time of token to 1 hour from now.
 
@@ -78,10 +84,11 @@ public class UserServiceImpl implements UserService {
 
         token.setExpiryDate(expiryDate);//This sets expiry of token.
 
-
+        //Now we need to save this token to DB.But we have not created TokenRepository yet.
         //return token;
-
-        return null;
+        token = tokenRepository.save(token);
+        //return null;
+        return token;
     }
 
     @Override
