@@ -91,3 +91,24 @@ public class UserMgmtServiceApplication {
     @Column(name = "last_updated_at")
     private Instant lastUpdatedAt;
 ------------
+The flow will be like this:
+    we signup and created a token and store it in DB.
+    when we call any API, we will send this token in header as:
+    Authorization
+    Bearer <tokenValue>
+    then we will intercept this request using a filter and extract this token from header and validate it
+    if valid, we will allow the request to go to the controller
+    if not valid, we will return 401 unauthorized
+    for this we will create a filter class and implement the logic.
+    we will also need to create a service class to validate the token.
+    we will also need to update the security filter chain to use this filter.
+    we will also need to create a custom exception class for unauthorized access.
+    we will also need to create a response class for the token.
+    we will also need to update the user entity to have a one to many relationship with the token entity.
+    we will also need to create a token entity to store the token in DB.
+    we will also need to create a token repository to interact with the token entity.
+    we will also need to create a token service to handle the token logic.
+    we will also need to create a token controller to handle the token API.
+
+    Also on login-API-call, we will return TokenDto, which will have just the token Value.
+    Now we will call validateToken-API to get the this token validated and that Validate API will return the UserDto object now.
