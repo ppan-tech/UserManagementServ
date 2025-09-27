@@ -119,5 +119,48 @@ The flow will be like this:
         But controller should return DTO to client.
         So controller will convert model class object to DTO and return it to client.
 
+Details of encode() method of BCryptPasswordEncoder class:
+    public String encode(CharSequence rawPassword) {
+        String salt;
+        if (this.strength > 0) {
+            if (this.random != null) {
+                salt = BCrypt.gensalt(this.strength, this.random);
+            } else {
+                salt = BCrypt.gensalt(this.strength);
+            }
+        } else {
+            salt = BCrypt.gensalt();
+        }
+        return BCrypt.hashpw(rawPassword.toString(), salt);
+    }
+    ----------
+Details of matches() method of BCryptPasswordEncoder class:
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        if (encodedPassword == null || encodedPassword.length() == 0) {
+            this.logger.warn("Empty encoded password");
+            return false;
+        } else if (!encodedPassword.startsWith("$2")) {
+            this.logger.warn("Encoded password does not look like BCrypt");
+            return false;
+        } else {
+            return BCrypt.checkpw(rawPassword.toString(), encodedPassword);
+        }
+    }
+    ----------
+Details of gensalt() method of BCrypt class:
+    public static String gensalt(int log_rounds, SecureRandom random) {
+        StringBuilder rs = new StringBuilder();
+        byte[] rnd = new byte[16];
+        random.nextBytes(rnd); //generates random bytes and places them in rnd byte array
+
+
+The encode method of BCryptPasswordEncoder automatically generates a random salt for each password. It combines
+the salt with the password and hashes them using the BCrypt algorithm. This ensures that even identical passwords
+will have different hashes, improving security. The salt is stored as part of the resulting hash string.
+----------encode method details--till here--
+
+
+
+
 
 
