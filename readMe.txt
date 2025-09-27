@@ -112,3 +112,12 @@ The flow will be like this:
 
     Also on login-API-call, we will return TokenDto, which will have just the token Value.
     Now we will call validateToken-API to get the this token validated and that Validate API will return the UserDto object now.
+
+    DTO-some details:
+        DTOs are used to hide details from client.And client will never interact with service directly.So service need
+        not to retunr DTO to controller, whereas it can return the model class object to controller.
+        But controller should return DTO to client.
+        So controller will convert model class object to DTO and return it to client.
+
+
+
