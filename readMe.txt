@@ -159,8 +159,26 @@ the salt with the password and hashes them using the BCrypt algorithm. This ensu
 will have different hashes, improving security. The salt is stored as part of the resulting hash string.
 ----------encode method details--till here--
 
+----Before JWT--implementation----till now our flow---
+Till now., our flow was : user calls setup-API, with email and password.We will then convert the password into Hash using BcryptPasswordEncoder.encode()
+method, which internally uses salt, which it generates itself and then we store this email and hashed password into DB in users table, where
+we store userid,hashed password etc.
+We returned the user-object to the caller, with userId init.
 
+Now in login-API call, user will send email and password.
+We will fetch the user details(userid, hashed_password) from DB-table 'users' using email_Id and then we will use
+    BcryptPasswordEncoder.matches(hashedPasswd-from-DB, user-sent-password-to-login) method
+to match the password sent by user with the hashed password stored in DB.
+This method internally extracts the salt from the hashed password and uses it to hash the password sent by user for login.
+If both hashes match, then password is correct.
+If password is correct, we will generate a new token using Apache commons and store it in DB(tokens table) and return this token to user.
+If password is incorrect, we will return 401 unauthorized.
 
+Note:Tokens table store all the tokens, their expiry time and the userId with which they are associated.For eveyr login we genberate a token so we will
+store in this Table-token.
 
-
-
+Also we have created an authCommon Bean class, in ProductServicem which calls this user-Service, by calling its valdiateToken-API, to validate the token.
+If success then Product-Svc retunrs the product; but if user-service returns un-Authorized, then throws exception that unauthorized.
+This is how we are using user-service in product-service.
+------
+Now we will implement JWT token based authentication.
