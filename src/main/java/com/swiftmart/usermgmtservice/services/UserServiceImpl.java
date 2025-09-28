@@ -6,11 +6,13 @@ import com.swiftmart.usermgmtservice.models.Token;
 import com.swiftmart.usermgmtservice.models.User;
 import com.swiftmart.usermgmtservice.repositories.TokenRepository;
 import com.swiftmart.usermgmtservice.repositories.UserRepository;
+import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Token login(String email, String password) throws PasswordMismatchException {
+    public String login(String email, String password) throws PasswordMismatchException {
         //lets first get the user by email from DB
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) {
@@ -69,27 +71,46 @@ public class UserServiceImpl implements UserService {
 
         //SUCCESSFUL of login--FLOW:
         //if control reaches here, means login is successful.
-        Token token = new Token();
-        token.setUser(user);
-        //generate a random token value and set it to token object.
-        //token.setTokenValue(java.util.UUID.randomUUID().toString());
-        token.setTokenValue(RandomStringUtils.randomAlphanumeric(128));//pnp:128 alphanumeric chars, very difficult to guess.
-        //set the expiry time of token to 1 hour from now.
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, 30);
-        Date expiryDate = calendar.getTime();
+        //Generating token manually:
+//        Token token = new Token();
+//        token.setUser(user);
+//        //generate a random token value and set it to token object.
+//        //token.setTokenValue(java.util.UUID.randomUUID().toString());
+//        token.setTokenValue(RandomStringUtils.randomAlphanumeric(128));//pnp:128 alphanumeric chars, very difficult to guess.
+//        //set the expiry time of token to 1 hour from now.
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.DAY_OF_MONTH, 30);
+//        Date expiryDate = calendar.getTime();
+//
+//        //token.setExpiryTime(System.currentTimeMillis() + 3600 * 1000);//
+//        //Note:3600*1000 means 1 hour in milliseconds.
+//
+//        token.setExpiryDate(expiryDate);//This sets expiry of token.
 
-        //token.setExpiryTime(System.currentTimeMillis() + 3600 * 1000);//
-        //Note:3600*1000 means 1 hour in milliseconds.
+//Generate JWT token:
+        //Generate a JWT token using JJWT.
+        //Lets forst Generate only for Payload part (means B part of A.B.C;
+        String userData = "{\n" +
+                "   \"email\": \"deepak@gmail.com\",\n" +
+                "   \"roles\": [\n" +
+                "      \"instructor\",\n" +
+                "      \"ta\"\n" +
+                "   ],\n" +
+                "   \"expiryDate\": \"22ndSept2026\"\n" +
+                "}";
 
-        token.setExpiryDate(expiryDate);//This sets expiry of token.
+        //TODO: Try to generate header & signature.
 
-        //Now we need to save this token to DB.But we have not created TokenRepository yet.
-        //return token;
-        token = tokenRepository.save(token);
-        //return null;
-        return token;
+        byte[] payload = userData.getBytes(StandardCharsets.UTF_8);
+        String tokenValue = Jwts.builder().content(payload).compact();
+
+
+
+        return tokenValue;
+//Now we do not need this token in DB.And this also comntains its expiry time inside it in the payload.
+
     }
 
     @Override

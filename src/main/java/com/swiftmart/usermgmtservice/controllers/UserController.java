@@ -43,14 +43,14 @@ public class UserController {
 
     @PostMapping("/login")//Note:Login should be post as it will generate a token.So it will return a TokenDTO.
     //public void login(String email, String pas){
-    public TokenDTO login(@RequestBody LoginRequestDTO requestDTO) throws PasswordMismatchException {
+    public String login(@RequestBody LoginRequestDTO requestDTO) throws PasswordMismatchException {
        // return null;
-        Token token = userService.login(
+        String token = userService.login(
                 requestDTO.getEmail(),
                 requestDTO.getPassword()
         );
 
-        return TokenDTO.from(token);
+        return token;
     }
 
     @GetMapping("/validate/{tokenValue}")

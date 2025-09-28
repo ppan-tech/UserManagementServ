@@ -8,7 +8,7 @@ import com.swiftmart.usermgmtservice.models.User;
 public interface UserService {
     User signup(String name, String email, String password);
 
-    Token login(String email, String password) throws PasswordMismatchException;
+    String login(String email, String password) throws PasswordMismatchException;
 
     User validateToken(String tokenValue) throws InvalidTokenException;
 }
