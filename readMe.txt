@@ -672,7 +672,13 @@ import java.util.Optional;
 
 
 
+---
+As i have implmented JWT, for pyaload part.SO i hardcoded payload part for Deepak's details. and this is the token i get:
+eyJhbGciOiJub25lIn0.ewogICAiZW1haWwiOiAiZGVlcGFrQGdtYWlsLmNvbSIsCiAgICJyb2xlcyI6IFsKICAgICAgImluc3RydWN0b3IiLAogICAgICAidGEiCiAgIF0sCiAgICJleHBpcnlEYXRlIjogIjIybmRTZXB0MjAyNiIKfQ.
 
+now putting this token in http://jwt.io for decoding, i got the same details as the hard coded payload i put inside it.
+So this confirms that JWT is working fine.
+------
 
 
 
