@@ -633,8 +633,37 @@ import java.util.Optional;
 @Service
 
 
+---------------------------public class UserServiceImpl implements UserService {
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
+    @Override
+    @Transactional
+    public User signup(User user) {
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
+            throw new RuntimeException("User with email " + user.getEmail() + " already exists");
+        }
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
+        return userRepository.save(user);
+    }
+    @Override
+    public TokenResponseDto login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+        String token = jwtService.generateToken(user.getEmail());
+        return new TokenResponseDto(token);
+    }
 
-
+    @Override
+    public User validateToken(String token) {
 
 
 
